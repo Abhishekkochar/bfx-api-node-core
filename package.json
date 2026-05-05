@@ -45,7 +45,7 @@
   },
   "dependencies": {
     "bfx-api-node-models": "^1.6.2",
-    "bfx-api-node-rest": "^4.1.2",
+    "bfx-api-node-rest": "^8.0.0",
     "bfx-api-node-util": "^1.0.10",
     "bfx-api-node-ws1": "^1.0.3",
     "bluebird": "^3.7.2",
