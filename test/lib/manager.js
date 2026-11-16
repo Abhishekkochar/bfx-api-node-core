@@ -296,8 +296,8 @@ describe('Reconnect all sockets', () => {
       await wss.close()
     }
 
-    m = null // eslint-disable-line
-    wss = null // eslint-disable-line
+    m = null
+    wss = null
   })
 
   it('reconnects properly when API credentials are updated', async () => {
