@@ -1,3 +1,9 @@
+# 2.0.0
+- feat: migrate to node 22
+- chore: migrate tests from mocha to brittle
+- chore: remove mocha, jsdoc-to-markdown, standard and chai dev dependencies
+- chore: sort package.json
+
 # 1.6.1
 - fix: resubscribe channels on auto reconnect issue fix.
 
