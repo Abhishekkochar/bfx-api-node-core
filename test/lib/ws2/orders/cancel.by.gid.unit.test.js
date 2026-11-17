@@ -27,37 +27,36 @@ test('ws2:orders:cancel_by_gid - emits order cancel event with order GID', (t) =
   }, { gid })
 })
 
-test('ws2:orders:cancel_by_gid - returns a promise that resolves on a matching oc_multi-req notification', (t) => {
-  t.plan(1)
+test('ws2:orders:cancel_by_gid - returns a promise that resolves on a matching oc_multi-req notification', async (t) => {
+  const handlers = {}
 
-  cancelOrderByGid({
+  const p = cancelOrderByGid({
     ...defaultState,
     ev: {
       off: () => { },
-      once: (eventName, handler) => {
-        if (eventName === `n:oc_multi-req:${gid}:success`) {
-          handler()
-          t.ok(handler)
-        }
-      }
+      once: (eventName, handler) => { handlers[eventName] = handler }
     }
   }, { gid })
+
+  t.ok(handlers[`n:oc_multi-req:${gid}:success`], 'registers success handler')
+  handlers[`n:oc_multi-req:${gid}:success`]([gid])
+
+  await t.execution(p, 'promise resolves')
 })
 
-test('ws2:orders:cancel_by_gid - returns a promise that rejects on a matching oc_multi-req error notification', (t) => {
-  t.plan(1)
+test('ws2:orders:cancel_by_gid - returns a promise that rejects on a matching oc_multi-req error notification', async (t) => {
+  const handlers = {}
 
-  cancelOrderByGid({
+  const p = cancelOrderByGid({
     ...defaultState,
     ev: {
       off: () => { },
-      once: (eventName, handler) => {
-        if (eventName === `n:oc_multi-req:${gid}:error`) {
-          t.ok(handler)
-        } else {
-          handler()
-        }
-      }
+      once: (eventName, handler) => { handlers[eventName] = handler }
     }
   }, { gid })
+
+  t.ok(handlers[`n:oc_multi-req:${gid}:error`], 'registers error handler')
+  handlers[`n:oc_multi-req:${gid}:error`]([gid])
+
+  await t.exception(p, 'promise rejects')
 })
